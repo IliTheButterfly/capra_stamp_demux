@@ -10,7 +10,6 @@
 #include <mutex>
 #include <string>
 #include <unordered_map>
-#include <type_traits>
 #include <vector>
 
 #include "capra_stamp_demux/unstamper.hpp"
@@ -34,14 +33,7 @@ private:
         rclcpp::Serialization<MsgT> ser;
         MsgT typed_msg;
         ser.deserialize_message(&serialized_msg, &typed_msg);
-
-        if constexpr (requires { typed_msg.header.stamp; }) {
-          return rclcpp::Time(typed_msg.header.stamp);
-        } else if constexpr (requires { typed_msg.stamp; }) {
-          return rclcpp::Time(typed_msg.stamp);
-        } else {
-          static_assert(!std::is_same_v<MsgT, MsgT>, "Message type must have header.stamp or stamp");
-        }
+        return rclcpp::Time(typed_msg.header.stamp);
       };
   }
 
