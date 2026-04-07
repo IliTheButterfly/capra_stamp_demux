@@ -1,0 +1,49 @@
+/stamp_demux_cmd_vel_unstamp:
+  ros__parameters:
+    input_type: geometry_msgs/msg/TwistStamped
+    output_type: geometry_msgs/msg/Twist
+    input_topics:
+      - /rove/lora/cmd_vel
+      - /rove/remote/cmd_vel
+    output_topic: /rove/cmd_vel
+    stale_delay: 1.0
+    qos_depth: 10
+    qos_reliability: reliable
+    qos_durability: volatile
+
+/stamp_demux_cmd_vel:
+  ros__parameters:
+    input_type: geometry_msgs/msg/TwistStamped
+    input_topics:
+      - /rove/lora/cmd_vel
+      - /rove/remote/cmd_vel
+    output_topic: /rove/cmd_vel_stamped
+    stale_delay: 1.0
+    qos_depth: 10
+    qos_reliability: reliable
+    qos_durability: volatile
+
+/stamp_demux_flippers_unstamp:
+  ros__parameters:
+    input_type: capra_control_msgs/msg/FlippersStamped
+    output_type: capra_control_msgs/msg/Flippers
+    input_topics:
+      - /rove/lora/flippers_cmd
+      - /rove/remote/flippers_cmd
+    output_topic: /rove/flippers_cmd
+    stale_delay: 1.0
+    qos_depth: 10
+    qos_reliability: reliable
+    qos_durability: volatile
+
+/stamp_demux_pointcloud2:
+  ros__parameters:
+    input_type: sensor_msgs/msg/PointCloud2
+    input_topics:
+      - /lidar/front/points
+      - /lidar/rear/points
+    output_topic: /lidar/points_muxed
+    stale_delay: 0.2
+    qos_depth: 5
+    qos_reliability: best_effort
+    qos_durability: volatile
