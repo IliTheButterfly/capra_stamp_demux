@@ -29,7 +29,6 @@
 #include <geometry_msgs/msg/wrench_stamped.hpp>
 #include <sensor_msgs/msg/battery_state.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
-#include <sensor_msgs/msg/channel_float32.hpp>
 #include <sensor_msgs/msg/compressed_image.hpp>
 #include <sensor_msgs/msg/fluid_pressure.hpp>
 #include <sensor_msgs/msg/illuminance.hpp>
@@ -37,10 +36,10 @@
 #include <sensor_msgs/msg/imu.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include <sensor_msgs/msg/joy.hpp>
-#include <sensor_msgs/msg/joy_feedback_array.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <sensor_msgs/msg/magnetic_field.hpp>
 #include <sensor_msgs/msg/multi_dof_joint_state.hpp>
+#include <sensor_msgs/msg/multi_echo_laser_scan.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <sensor_msgs/msg/point_cloud.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
@@ -247,13 +246,9 @@ void StampDemuxNode::register_supported_types()
       return in_msg.wrench;
     });
 
-  // std_msgs
-  add_stamp_extractor<std_msgs::msg::Header>("std_msgs/msg/Header");
-
   // sensor_msgs (messages with std_msgs/Header)
   add_stamp_extractor<sensor_msgs::msg::BatteryState>("sensor_msgs/msg/BatteryState");
   add_stamp_extractor<sensor_msgs::msg::CameraInfo>("sensor_msgs/msg/CameraInfo");
-  add_stamp_extractor<sensor_msgs::msg::ChannelFloat32>("sensor_msgs/msg/ChannelFloat32");
   add_stamp_extractor<sensor_msgs::msg::CompressedImage>("sensor_msgs/msg/CompressedImage");
   add_stamp_extractor<sensor_msgs::msg::FluidPressure>("sensor_msgs/msg/FluidPressure");
   add_stamp_extractor<sensor_msgs::msg::Illuminance>("sensor_msgs/msg/Illuminance");
@@ -261,10 +256,10 @@ void StampDemuxNode::register_supported_types()
   add_stamp_extractor<sensor_msgs::msg::Imu>("sensor_msgs/msg/Imu");
   add_stamp_extractor<sensor_msgs::msg::JointState>("sensor_msgs/msg/JointState");
   add_stamp_extractor<sensor_msgs::msg::Joy>("sensor_msgs/msg/Joy");
-  add_stamp_extractor<sensor_msgs::msg::JoyFeedbackArray>("sensor_msgs/msg/JoyFeedbackArray");
   add_stamp_extractor<sensor_msgs::msg::LaserScan>("sensor_msgs/msg/LaserScan");
   add_stamp_extractor<sensor_msgs::msg::MagneticField>("sensor_msgs/msg/MagneticField");
   add_stamp_extractor<sensor_msgs::msg::MultiDOFJointState>("sensor_msgs/msg/MultiDOFJointState");
+  add_stamp_extractor<sensor_msgs::msg::MultiEchoLaserScan>("sensor_msgs/msg/MultiEchoLaserScan");
   add_stamp_extractor<sensor_msgs::msg::NavSatFix>("sensor_msgs/msg/NavSatFix");
   add_stamp_extractor<sensor_msgs::msg::PointCloud>("sensor_msgs/msg/PointCloud");
   add_stamp_extractor<sensor_msgs::msg::PointCloud2>("sensor_msgs/msg/PointCloud2");
