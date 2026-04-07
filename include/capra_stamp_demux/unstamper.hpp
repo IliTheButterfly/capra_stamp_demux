@@ -1,20 +1,25 @@
 #pragma once
 
 #include <rclcpp/rclcpp.hpp>
-#include <rclcpp/serialized_message.hpp>
 #include <rclcpp/serialization.hpp>
+#include <rclcpp/serialized_message.hpp>
 
-#include <unordered_map>
 #include <functional>
 #include <string>
+#include <unordered_map>
 
 class Unstamper
 {
 public:
   using ConvertFunc =
-    std::function<void(const rclcpp::SerializedMessage&, rclcpp::SerializedMessage&)>;
+    std::function<void(const rclcpp::SerializedMessage &, rclcpp::SerializedMessage &)>;
 
-  void unstamp(
+  bool has_conversion(const std::string & from, const std::string & to) const
+  {
+    return conversions_.find(make_key(from, to)) != conversions_.end();
+  }
+
+  bool unstamp(
     const std::string & from,
     const std::string & to,
     const rclcpp::SerializedMessage & in,
@@ -28,10 +33,11 @@ public:
         rclcpp::get_logger("Unstamper"),
         "Unsupported conversion %s -> %s",
         from.c_str(), to.c_str());
-      return;
+      return false;
     }
 
     it->second(in, out);
+    return true;
   }
 
   template<typename InT, typename OutT>
@@ -42,7 +48,7 @@ public:
   {
     conversions_[make_key(from, to)] =
       [extractor](const rclcpp::SerializedMessage & in,
-                  rclcpp::SerializedMessage & out)
+      rclcpp::SerializedMessage & out)
       {
         rclcpp::Serialization<InT> ser_in;
         rclcpp::Serialization<OutT> ser_out;

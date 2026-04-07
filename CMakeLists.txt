@@ -13,13 +13,12 @@ set(THIS_PROJECT_DEPEND
   sensor_msgs
 )
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
 foreach(dep IN ITEMS ${THIS_PROJECT_DEPEND})
   find_package(${dep} REQUIRED)
-endforeach(dep)
+endforeach()
 
-add_library(stamp_demux src/stamp_demux_node.cpp)
+add_library(stamp_demux_node src/stamp_demux_node.cpp)
 target_include_directories(stamp_demux_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
@@ -45,5 +44,21 @@ install(TARGETS
 install(DIRECTORY include/
   DESTINATION include
 )
+
+install(DIRECTORY config launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+
+  ament_add_gtest(test_unstamper test/test_unstamper.cpp)
+  if(TARGET test_unstamper)
+    target_include_directories(test_unstamper PRIVATE include)
+    ament_target_dependencies(test_unstamper
+      ${THIS_PROJECT_DEPEND}
+    )
+  endif()
+endif()
 
 ament_package()
