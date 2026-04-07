@@ -1,0 +1,25 @@
+# Ignore build and log directories
+build/
+log/
+install/
+
+config/
+!config/demo_stamp_demux.yaml
+
+launch/
+!launch/demo_stamp_demux.launch.py
+
+
+# Ignore Python bytecodes
+__pycache__/
+*.pyc
+
+# Ignore temp files
+*.tmp
+*.temp
+
+# Ignore files related to your dev environment
+.vscode/
+
+# generated map database by rtabmap
+*.db
